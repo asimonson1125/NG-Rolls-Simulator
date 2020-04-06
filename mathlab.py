@@ -5,10 +5,10 @@ def baseDamage(fp,arm):
     return math.ceil(math.sqrt(47.5*(fp+1)) + (math.sqrt(47.5*(arm+20))-29.5))
 
 def damagemod(fp,bonus):
-    return fp*4*(bonus+1)
+    return fp*4*((bonus/100)+1)
 
 def mitigation(arm,bonus):
-    return arm*4*(bonus+1)
+    return arm*4*((bonus/100)+1)
 
 def hitResult(firerMan,targetMan):
     baseRoll = random.randint(0,100)
