@@ -8,5 +8,7 @@ class unit:
         self.armor = arm
         self.maneuver = man
         self.hp = hp
+        self.maxhp = hp
         self.bonuses = cumulativeBoosts
         self.counters = counters
+        self.iRoll = 0

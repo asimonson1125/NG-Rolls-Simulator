@@ -61,3 +61,13 @@ def attack(firer,target):
     #check if dead
     #
     return
+
+def initiativeRoll(friendlies, enemies):
+    #roll random number then multiply by hp percentage (estimate).  Return array with objects in order
+    unitList = friendlies+enemies
+    for x in unitList:
+        initialRoll = random.randint(0,100)
+        x.iRoll = initialRoll * ((x.hp/x.maxhp) ** 2) #hp factor squared for more dramatic effect
+    #Now each unit is assigned an initiative roll.  Now to sort them.
+    unitList.sort(key=lambda x: x.iRoll, reverse=True)
+    return unitList
