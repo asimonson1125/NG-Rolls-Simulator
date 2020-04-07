@@ -13,3 +13,4 @@ class unit:
         self.counters = counters
         self.iRoll = 0
         self.alive = True
+        self.healing = 30
