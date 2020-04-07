@@ -12,3 +12,4 @@ class unit:
         self.bonuses = cumulativeBoosts #30% is input as just 30
         self.counters = counters
         self.iRoll = 0
+        self.alive = True
