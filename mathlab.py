@@ -75,7 +75,7 @@ def attack(firer, target):
         damage = math.ceil(damage - healing)
     # damage cannot be 0 or negative, so this is my compensation since we don't know how th real calculation works
     if (damage < 5):
-        damage = 5
+        damage = 2
     print(str(damage) + " damage done.")
     target.hp -= damage
     if (target.hp <= 0):
