@@ -2,16 +2,16 @@ from mathlab import *
 from UnitClass import unit
 from visuals import *
 
-unit1 = unit("Armor",15,17,13,1478,0,[])
-unit2 = unit("Armor",63,15,10,493,4,[])
-unit3 = unit("Armor",15,11,11,1698,0,[])
-unit4 = unit("Armor",16,19,10,985,10,[])
-unit5 = unit("Armor",15,17,15,1045,0,[])
-unit6 = unit("Armor",51,14,15,419,0,[])
-unit7 = unit("Armor",30,13,11,517,0,[])
-unit8 = unit("Armor",13,16,12,888,0,[])
-unit9 = unit("Armor",40,15,10,517,7,[])
-unit10 = unit("Armor",30,10,11,615,10,[])
+unit1 = unit("Armor",15,17,13,1478,100,[])
+unit2 = unit("Armor",63,15,10,493,104,[])
+unit3 = unit("Armor",15,11,11,1698,100,[])
+unit4 = unit("Armor",16,19,10,985,100,[])
+unit5 = unit("Armor",15,17,15,1045,100,[])
+unit6 = unit("Armor",51,14,15,419,100,[])
+unit7 = unit("Armor",30,13,11,517,100,[])
+unit8 = unit("Armor",13,16,12,888,100,[])
+unit9 = unit("Armor",40,15,10,517,107,[])
+unit10 = unit("Armor",30,10,11,615,110,[])
 unit11 = unit("Air",80,9,9,112,88,["Air"])
 unit12 = unit("Air",70,11,11,136,90,["Air"])
 unit13 = unit("Air",88,12,7,136,30,["Air"])
@@ -102,7 +102,7 @@ def instantBattle(rounds):
     if(enemyWins > 1):
         enemyremainder /= enemyWins
     print(str(friendlyWins) + " friendly wins vs " + str(enemyWins) + " enemy wins")
-    print("On average, when the corresponding side won, the enemies had " + str(round(enemyremainder)) + " units left while friendlies had " + str(friendlyremainder) + " units left.")
+    print("On average, when the corresponding side won, the friendlies had " + str(round(friendlyremainder)) + " units left while enemies had " + str(round(enemyremainder)) + " units left.")
 
 instantBattle(500)
 
