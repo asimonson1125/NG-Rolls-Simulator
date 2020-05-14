@@ -47,7 +47,7 @@ def attack(firer, target):
         tArm = target.armor
         tMan = target.maneuver
 
-    roll = hitResult(man * firer.bonuses, tMan * target.bonuses)
+    roll = hitResult(man * (firer.bonuses/100 + 1), tMan * (target.bonuses/100 + 1))
     print(roll)
     if (roll == "MISS"):
         return
