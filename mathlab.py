@@ -47,7 +47,7 @@ def attack(firer, target):
         tArm = target.armor
         tMan = target.maneuver
 
-    roll = hitResult(man, tMan)  # do bonuses impact maneuver?
+    roll = hitResult(man * firer.bonuses, tMan * target.bonuses)
     print(roll)
     if (roll == "MISS"):
         return
