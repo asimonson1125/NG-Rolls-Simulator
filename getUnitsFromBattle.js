@@ -7,11 +7,11 @@ function generate(x,attacking,unitnum){
 
     if(!attacking){
         bonus = 0;
-        ret += `unit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[]);\n`;
+        ret += `unit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[])\n`;
     }
     else{
         bonus = 0;
-        ret += `eunit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[]);\n`;
+        ret += `eunit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[])\n`;
     }
     return(ret);
 }
