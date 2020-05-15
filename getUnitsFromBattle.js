@@ -2,9 +2,17 @@ function generate(x,attacking,unitnum){
     let ret = "";
     let bonus = 0;
     let type = 0;
-    bonus = 0;
-    type = 0; //3 is air (2 probably armor)
-    ret += `unit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[]);\n`;
+    if(x.type == 2){ type = "Armor";}
+    else if (x.type == 3){ type = "Air";}
+
+    if(!attacking){
+        bonus = 0;
+        ret += `unit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[]);\n`;
+    }
+    else{
+        bonus = 0;
+        ret += `eunit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${bonus},[]);\n`;
+    }
     return(ret);
 }
 
