@@ -33,6 +33,7 @@ def hitResult(firerMan, targetMan):
 
 def attack(firer, target):
     if (firer.alive == False):
+        print("FIRER IS DEAD!!!")
         return  # he dead bruh
     if (target.type in firer.counters):
         fp = 1.25 * firer.firepower + 6
@@ -46,36 +47,25 @@ def attack(firer, target):
     else:
         tArm = target.armor
         tMan = target.maneuver
-
     roll = hitResult(man * (firer.bonuses/100 + 1), tMan * (target.bonuses/100 + 1))
     print(roll)
     if (roll == "MISS"):
         return
     damage = math.ceil(baseDamage(firer.firepower, firer.armor)) + math.ceil(damagemod(fp, firer.bonuses))
     damage -= mitigation(tArm, target.bonuses)
+    if (roll == "CRIT"):
+        damage *= 1.5
+    elif (roll == "GRAZE"):
+        damage *= .5
     # healing rounds normally, counter 50% reduction is listed under healing
-    # also if the target counters the firer, healing is applied before crit multiplier (NOT GRAZE!)
     if (firer.type in target.counters):
         healing = round(damage * ((target.healing + 50) / 100))
-        if(roll == "CRIT"):
-            damage -= healing
-            damage *= 1.5
-            damage = math.ceil(damage)
-        else:
-            if(roll == "GRAZE"):
-                damage *= .5
-            damage -= healing
-            damage = math.ceil(damage)
     else:
         healing = round(damage * (target.healing / 100))
-        if (roll == "CRIT"):
-            damage *= 1.5
-        elif (roll == "GRAZE"):
-            damage *= .5
-        damage = math.ceil(damage - healing)
-    # damage cannot be 0 or negative, so this is my compensation since we don't know how th real calculation works
+    damage = math.ceil(damage - healing)
+    # damage cannot be 0 or negative, so this is my compensation since we don't know how the real calculation works
     if (damage < 5):
-        damage = 2
+        damage = 5
     print(str(damage) + " damage done.")
     target.hp -= damage
     if (target.hp <= 0):
