@@ -35,18 +35,27 @@ def attack(firer, target):
     if (firer.alive == False):
         print("FIRER IS DEAD!!!")
         return  # he dead bruh
+    targetBonus = 0
+    for i in firer.typeBonuses:
+        if(i[0] == target.type):
+            targetBonus = i[1]
+    multiplier = (firer.bonuses + targetBonus)/100 +1
     if (target.type in firer.counters):
-        fp = 1.25 * firer.firepower + 6
-        man = 1.25 * firer.maneuver + 3
+        fp = (1.25 * firer.firepower + 6) * multiplier
+        man = (1.25 * firer.maneuver + 3) * multiplier
     else:
         fp = firer.firepower
         man = firer.maneuver
+    for i in target.typeBonuses:
+        if(i[0] == target.type):
+            targetBonus = i[1]
+    multiplier = (target.bonuses + targetBonus)/100 *1
     if (firer.type in target.counters):
-        tArm = 1.25 * target.armor + 3
-        tMan = 1.25 * target.maneuver + 3
+        tArm = (1.25 * target.armor + 3) * multiplier
+        tMan = (1.25 * target.maneuver + 3) * multiplier
     else:
-        tArm = target.armor
-        tMan = target.maneuver
+        tArm = target.armor * multiplier
+        tMan = target.maneuver * multiplier
     roll = hitResult(man * (firer.bonuses/100 + 1), tMan * (target.bonuses/100 + 1))
     print(roll)
     if (roll == "MISS"):
@@ -58,10 +67,11 @@ def attack(firer, target):
     elif (roll == "GRAZE"):
         damage *= .5
     # healing rounds normally, counter 50% reduction is listed under healing
+    damageReduct = 0
     if (firer.type in target.counters):
-        healing = round(damage * ((target.healing + 50) / 100))
+        healing = round(damage * ((damageReduct + 50) / 100))
     else:
-        healing = round(damage * (target.healing / 100))
+        healing = round(damage * (damageReduct / 100))
     damage = math.ceil(damage - healing)
     # damage cannot be 0 or negative, so this is my compensation since we don't know how the real calculation works
     if (damage < 5):
