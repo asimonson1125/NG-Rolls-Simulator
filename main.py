@@ -11,6 +11,10 @@ from visuals import *
 # say I have a mortar infantry with 10% healing to friendly infantry, 20% defense bonus, and  10% damage increase against armor/air
 exampleMortar = unit("Infantry", 3, 1, 2, 50, 20, [["Armor", 10],["Air", 10]], ["Infantry"], [["Infantry", 10]])
 exampleInfantry = unit("Infantry", 3, 1, 2, 50, 0, [], [], [])
+testHealer = unit("idkMan", 0,0,0,0,0,[],[],[["Infantry",30]])
+
+
+
 
 
 # ______________________________________________________________________________
@@ -37,7 +41,7 @@ def instantBattle(rounds):
                     if (order[i] in friendlies):
                         target = enemies[random.randint(0, len(enemies) - 1)]
                         print("\n\n\n")
-                        attack(order[i], target)
+                        attack(order[i], target, pEnemies)
                         if (target.alive == False):
                             enemies.remove(target)
                             if (len(enemies) == 0):
@@ -45,7 +49,7 @@ def instantBattle(rounds):
                     elif (order[i] in enemies):
                         target = friendlies[random.randint(0, len(friendlies) - 1)]
                         print("\n\n\n")
-                        attack(order[i], target)
+                        attack(order[i], target, pFriendlies)
                         if (target.alive == False):
                             friendlies.remove(target)
                             if (len(friendlies) == 0):
@@ -77,4 +81,5 @@ def instantBattle(rounds):
 
 instantBattle(100)
 
-#attack(attacker,defender)
+#attack(attacker,defender,liveDefenders)
+#attack(exampleMortar, exampleInfantry, [exampleInfantry, testHealer])

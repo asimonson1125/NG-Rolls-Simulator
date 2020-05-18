@@ -7,11 +7,11 @@ def baseDamage(fp, arm):
 
 
 def damagemod(fp, bonus):
-    return fp * 4 * ((bonus / 100) + 1)
+    return fp * ((bonus / 100) + 1) * 4
 
 
 def mitigation(arm, bonus):
-    return arm * 4 * ((bonus / 100) + 1)
+    return arm * ((bonus / 100) + 1) *4
 
 
 def hitResult(firerMan, targetMan):
@@ -31,7 +31,7 @@ def hitResult(firerMan, targetMan):
         return "GRAZE"
 
 
-def attack(firer, target):
+def attack(firer, target, targetAllies):
     if (firer.alive == False):
         print("FIRER IS DEAD!!!")
         return  # he dead bruh
@@ -39,36 +39,42 @@ def attack(firer, target):
     for i in firer.typeBonuses:
         if(i[0] == target.type):
             targetBonus = i[1]
-    multiplier = (firer.bonuses + targetBonus)/100 +1
+    multiplier = (firer.bonuses + targetBonus)
     if (target.type in firer.counters):
-        fp = (1.25 * firer.firepower + 6) * multiplier
-        man = (1.25 * firer.maneuver + 3) * multiplier
+        fp = (1.25 * firer.firepower + 6)
+        man = (1.25 * firer.maneuver + 3)
     else:
         fp = firer.firepower
         man = firer.maneuver
     for i in target.typeBonuses:
         if(i[0] == target.type):
             targetBonus = i[1]
-    multiplier = (target.bonuses + targetBonus)/100 *1
+    tMultiplier = (target.bonuses + targetBonus)
     if (firer.type in target.counters):
-        tArm = (1.25 * target.armor + 3) * multiplier
-        tMan = (1.25 * target.maneuver + 3) * multiplier
+        tArm = (1.25 * target.armor + 3)
+        tMan = (1.25 * target.maneuver + 3)
     else:
-        tArm = target.armor * multiplier
-        tMan = target.maneuver * multiplier
-    roll = hitResult(man * (firer.bonuses/100 + 1), tMan * (target.bonuses/100 + 1))
+        tArm = target.armor
+        tMan = target.maneuver
+    roll = hitResult(man * (multiplier/100 + 1), tMan * (tMultiplier/100 + 1))
     print(roll)
     if (roll == "MISS"):
         return
-    damage = math.ceil(baseDamage(firer.firepower, firer.armor)) + math.ceil(damagemod(fp, firer.bonuses))
-    damage -= mitigation(tArm, target.bonuses)
+    damage = math.ceil(baseDamage(firer.firepower, firer.armor)) + math.ceil(damagemod(fp, multiplier)) # 90% sure base doesn't include bonuses or counter stat
+    damage -= mitigation(tArm, tMultiplier)
     if (roll == "CRIT"):
         damage *= 1.5
     elif (roll == "GRAZE"):
         damage *= .5
-    # healing rounds normally, counter 50% reduction is listed under healing
+    # healing
     damageReduct = 0
-    if (firer.type in target.counters):
+    for i in targetAllies:
+        for type in i.healing:
+            if (type[0] == target.type):
+                damageReduct += type[1]
+    if(damageReduct > 30): # 30% is max friendly damage reduction
+        damageReduct = 30
+    if (firer.type in target.counters): # healing rounds normally, counter 50% reduction is listed under healing
         healing = round(damage * ((damageReduct + 50) / 100))
     else:
         healing = round(damage * (damageReduct / 100))
