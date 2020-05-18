@@ -6,12 +6,12 @@ from visuals import *
 # ______________________________________________________________________________
 # make your units here:
 # just drop the percent sign where necessary.
-# syntax is unit(type, fp, arm, man, hp, continent+defense bonuses, type bonuses (like 10% damage against armor), counters, healing)
+# syntax is unit(type, fp, arm, man, hp, continent+defense bonuses, type bonuses (like 10% damage against armor), counters, healing, shots per turn (as in jackhammer attacks))
 
 # say I have a mortar infantry with 10% healing to friendly infantry, 20% defense bonus, and  10% damage increase against armor/air
-exampleMortar = unit("Infantry", 3, 1, 2, 50, 20, [["Armor", 10],["Air", 10]], ["Infantry"], [["Infantry", 10]])
-exampleInfantry = unit("Infantry", 3, 1, 2, 50, 0, [], [], [])
-testHealer = unit("idkMan", 0,0,0,0,0,[],[],[["Infantry",30]])
+exampleMortar = unit("Infantry", 3, 2, 2, 50, 20, [["Armor", 10],["Air", 10]], ["Infantry"], [["Infantry", 10]],2)
+exampleInfantry = unit("Infantry", 3, 1, 2, 50, 0, [], [], [],1)
+testHealer = unit("idkMan", 0,0,0,10,0,[],[],[["Infantry",30]],1)
 
 
 

@@ -33,7 +33,6 @@ def hitResult(firerMan, targetMan):
 
 def attack(firer, target, targetAllies):
     if (firer.alive == False):
-        print("FIRER IS DEAD!!!")
         return  # he dead bruh
     targetBonus = 0
     for i in firer.typeBonuses:
@@ -91,12 +90,19 @@ def attack(firer, target, targetAllies):
 
 def initiativeRoll(friendlies, enemies):
     # roll random number then multiply by hp percentage (estimate).  Return array with objects in order
-    unitList = friendlies + enemies
+    unitList = []
+    allUnits = friendlies + enemies
+    for unit in allUnits:
+        for i in range(unit.jackhammerFactor):
+            unitList.append([unit,0])
     for x in unitList:
-        initialRoll = random.randint(0, 100)
-        x.iRoll = initialRoll * ((x.hp / x.maxhp) ** 2)  # hp factor squared for more dramatic effect
-        if("Special Forces" in x.counters):
-            x.iRoll *= 3
+        iRoll = random.randint(0, 100)
+        x[1] = iRoll * ((x[0].hp / x[0].maxhp) ** 2)  # hp factor squared for more dramatic effect
+        if("Special Forces" in x[0].counters):
+            x[1] *= 3
     # Now each unit is assigned an initiative roll.  Now to sort them.
-    unitList.sort(key=lambda x: x.iRoll, reverse=True)
-    return unitList
+    unitList.sort(key=lambda x: x[1], reverse=True)
+    ret = []
+    for i in unitList:
+        ret.append(i[0])
+    return ret
