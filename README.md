@@ -2,6 +2,7 @@
 **A Python NationsGame battle simulator for division predictions**
 
 I reverse-engineered the battle mechanics of the browser game, [NationsGame](https://www.Nationsgame.net), and rebuilt them into this python project that can simulate individual attacks as well as run mass battle simulations to determine the victor and remaining units.  It includes the following elements from the game:
+* Base damage (estimation, but pretty close)
 * Firepower
 * Armor
 * Maneuver
@@ -15,10 +16,12 @@ I reverse-engineered the battle mechanics of the browser game, [NationsGame](htt
 
 It does not account for:
 * Targeting
+* Officers
 * realistic initiative rolls
 * retreating
 
-I don't intend to implement targeting into this project because I wasn't able to pinpoint how it was done ingame other than a few specific conditions the game favors.  In the bigger and tougher battles I found the correlations to be virtually negligable, so I just made it random.
+I don't intend to implement targeting into this project because I wasn't able to pinpoint how it was done ingame other than a few specific conditions the game favors.  In the bigger and tougher battles I found the correlations to be virtually negligable, so I just made it random.  I won't be adding officers for the same reason.  Officers just amplifiy the effects of targeting, so nobody knows exactly how they work.
+
 The initiative roll has many factors and getting the exact formula would be a heck of a headache for a fun project like this.  Instead, I just took a random roll and multiplied it by the unit's HP % squared ( and *3 if it counters Special Forces).  This shouldn't be a major factor in the long battles that I expect this to be used for anyway.
 
 Retreats happen if a side has what the game determines to be 10% or less of the power in the battle, with about an 80% to check for a retreat every attack.  I don't think this would be too hard to calculate, so I may add it in the future.  For now, battles end when one side loses all of its units.
