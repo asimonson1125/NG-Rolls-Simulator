@@ -1,5 +1,6 @@
 # NG-Rolls-Simulator
 **A Python NationsGame battle simulator for division predictions**
+JS version added on June 6th, 2020.
 
 I reverse-engineered the battle mechanics of the browser game, [NationsGame](https://www.Nationsgame.net), and rebuilt them into this python project that can simulate individual attacks as well as run mass battle simulations to determine the victor and remaining units.  It includes the following elements from the game:
 * Base damage (estimation, but pretty close)

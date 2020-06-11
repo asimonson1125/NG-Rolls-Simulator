@@ -114,6 +114,7 @@ function generate(x,attacking,unitnum,continent){
                 if(!firstCounter){
                     counters += ", ";
                 } else{ firstCounter = false;}
+                counters += `"${i.value}"`;
             }
         });
         ret += `eunit${unitnum} = unit("${type}",${x.unit_off_str},${x.unit_def_str},${x.unit_speed},${x.unit_max_health},${locationBonus},[${typeBonus}],[${counters}],[${heals}],${shots})\n`;
