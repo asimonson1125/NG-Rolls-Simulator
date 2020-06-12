@@ -26,7 +26,9 @@ async function instantBattle(rounds){
     let enemies = pEnemies.slice();
 
     let enemyWins = 0;
+    let friendliesretreated = 0;
     let friendlyWins = 0;
+    let enemiesretreated = 0;
     let enemyremainder = 0;
     let friendlyremainder = 0;
     for(roundnum = 0; roundnum < rounds; roundnum++){
@@ -34,7 +36,7 @@ async function instantBattle(rounds){
         while (winner == "unknown"){
             let order = await mathlab.initiativeRoll(friendlies.slice(), enemies.slice());
             for(let i = 0; i < order.length; i++){
-                if (friendlies.length > 0 && enemies.length > 0){
+                if (friendlies.length > 0 && enemies.length > 0 && order[i].alive && winner == "unknown"){
                     if (friendlies.includes(order[i])){
                         let target = enemies[Math.floor(Math.random() * enemies.length)];
                         await mathlab.attack(order[i], target, pEnemies);
@@ -51,16 +53,19 @@ async function instantBattle(rounds){
                             if (friendlies.length == 0){ winner = "enemies";}
                         }
                     }
+                    if(winner == "unknown"){ winner = mathlab.checkRetreat(friendlies, enemies);}
                 }
             }
         }
         if (winner == "enemies"){
             enemyWins += 1;
             enemyremainder += enemies.length;
+            friendliesretreated += friendlies.length;
         }
         if (winner == "friendlies"){
             friendlyWins += 1;
             friendlyremainder += friendlies.length;
+            enemiesretreated += enemies.length;
         }
         friendlies = pFriendlies.slice();
         enemies = pEnemies.slice();
@@ -73,10 +78,11 @@ async function instantBattle(rounds){
             unit.alive = true;
         });
     }
-    if(friendlyWins > 1){ friendlyremainder /= friendlyWins;}
-    if(enemyWins > 1){ enemyremainder /= enemyWins;}
+    if(friendlyWins > 1){ friendlyremainder /= friendlyWins; enemiesretreated /= friendlyWins;}
+    if(enemyWins > 1){ enemyremainder /= enemyWins; friendliesretreated /= enemyWins;}
     console.log(`${friendlyWins} friendly wins vs ${enemyWins} enemy wins`);
-    console.log(`On average, when the corresponding side won, the friendlies had ${Math.round(friendlyremainder)} units left while enemies had ${Math.round(enemyremainder)} units left.`);
+    console.log(`On average, when the the friendlies won, the friendlies had ${Math.round(friendlyremainder)} units left while enemies had ${Math.round(enemiesretreated)} units retreat.`);
+    console.log(`On average, when the the enemies won, the enemies had ${Math.round(enemyremainder)} units left while friendlies had ${Math.round(friendliesretreated)} units retreat.`);
 }
 
 instantBattle(1000);

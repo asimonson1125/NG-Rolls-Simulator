@@ -15,7 +15,7 @@ def mitigation(arm, bonus):
 
 
 def hitResult(firerMan, targetMan):
-    baseRoll = random.randint(0, 100)
+    baseRoll = random.randint(1, 100)
     if (baseRoll <= 5):
         return "MISS"
     elif (baseRoll >= 95):
@@ -45,6 +45,8 @@ def attack(firer, target, targetAllies):
     else:
         fp = firer.firepower
         man = firer.maneuver
+
+
     for i in target.typeBonuses:
         if(i[0] == target.type):
             targetBonus = i[1]
@@ -96,7 +98,7 @@ def initiativeRoll(friendlies, enemies):
         for i in range(unit.jackhammerFactor):
             unitList.append([unit,0])
     for x in unitList:
-        iRoll = random.randint(0, 100)
+        iRoll = random.randint(1, 100)
         x[1] = iRoll * ((x[0].hp / x[0].maxhp) ** 2)  # hp factor squared for more dramatic effect
         if("Special Forces" in x[0].counters):
             x[1] *= 3
@@ -106,3 +108,16 @@ def initiativeRoll(friendlies, enemies):
     for i in unitList:
         ret.append(i[0])
     return ret
+
+def checkRetreat(friendlies,enemies):
+    friendlyPower = 0
+    enemyPower = 0
+    for i in friendlies:
+        friendlyPower += i.firepower*(i.hp/i.maxhp)
+    for i in enemies:
+        enemyPower += i.firepower*(i.hp/i.maxhp)
+    if(friendlyPower * .1 > enemyPower and  random.randint(1,10) <= 8):
+        return "friendlies"
+    elif (enemyPower * .1 > friendlyPower and random.randint(1,10) <= 8):
+        return "enemies"
+    return "unknown"
