@@ -36,7 +36,8 @@ exports.attack = function(firer, target, targetAllies){
         fp = firer.firepower;
         man = firer.maneuver;
     }
-    target.typeBonuses.forEach(function(i){if(i[0] == target.type){ targetBonus = i[1];}});
+    targetBonus = 0;
+    target.typeBonuses.forEach(function(i){if(i[0] == firer.type){ targetBonus = i[1];}});
     let tMultiplier = (target.bonuses + targetBonus);    
     if (target.counters.includes(firer.type)){
         tArm = (1.25 * target.armor + 3);
@@ -90,7 +91,7 @@ exports.checkRetreat = function(friendlies, enemies){
     let enemyPower = 0;
     friendlies.forEach(function(i){ friendlyPower += i.firepower*(i.hp/i.maxhp);});
     enemies.forEach(function(i){ enemyPower += i.firepower*(i.hp/i.maxhp)});
-    if(friendlyPower * .1 > enemyPower && Math.random() <= .8){ return "friendlies";}
-    else if (enemyPower * .1 > friendlyPower && Math.random() <= .8){ return "enemies";}
+    if(friendlyPower * .2 > enemyPower && Math.random() <= .8){ return "friendlies";}
+    else if (enemyPower * .2 > friendlyPower && Math.random() <= .8){ return "enemies";}
     return "unknown";
 }

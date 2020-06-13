@@ -1,4 +1,4 @@
-function generate(x,attacking,unitnum,continent){
+function generate(x, attacking, unitnum, continent, defType){
     let ret = "";
     let locationBonus = 0;
     let type = 0;
@@ -19,7 +19,7 @@ function generate(x,attacking,unitnum,continent){
 
     if(!attacking){ //defending
         x.unit_stats.forEach(function(i){ 
-            if(i.type == 1){ locationBonus += i.value;} //defense bonus
+            if(i.type == 1 && defType == 0){ locationBonus += i.value;} //defense bonus
             
             else if(i.type == 3){ //unit type bonus
                 let nstPlace = 18; //find where the nst in against is.
@@ -152,11 +152,11 @@ else if (continentNum == "5"){continentType = "Alpine";}
 let str = "";
 let unit = 0;
 for(let i = 0; i < b.defenders.length; i++){
-    b.defenders[i].groups[0].units.forEach(function(x){unit++;str += generate(x,false,unit,continentType);});
+    b.defenders[i].groups[0].units.forEach(function(x){unit++;str += generate(x,false,unit,continentType, i);});
 }
 str += "\n";
 unit = 0;
 for(let i = 0; i < b.attackers.length; i++){
-    b.attackers[i].groups[0].units.forEach(function(x){unit++;str += generate(x,true,unit,continentType);});
+    b.attackers[i].groups[0].units.forEach(function(x){unit++;str += generate(x,true,unit,continentType, i);});
 }
 console.log(str);

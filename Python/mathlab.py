@@ -47,6 +47,7 @@ def attack(firer, target, targetAllies):
         man = firer.maneuver
 
 
+    targetBonus = 0
     for i in target.typeBonuses:
         if(i[0] == target.type):
             targetBonus = i[1]
@@ -63,6 +64,8 @@ def attack(firer, target, targetAllies):
         return
     damage = math.ceil(baseDamage(firer.firepower, firer.armor)) + math.ceil(damagemod(fp, multiplier)) # 90% sure base doesn't include bonuses or counter stat
     damage -= mitigation(tArm, tMultiplier)
+    if (damage < 5):
+        damage = 5
     if (roll == "CRIT"):
         damage *= 1.5
     elif (roll == "GRAZE"):
@@ -79,10 +82,10 @@ def attack(firer, target, targetAllies):
         healing = round(damage * ((damageReduct + 50) / 100))
     else:
         healing = round(damage * (damageReduct / 100))
+    if (damage < 3):
+        damage = 3
     damage = math.ceil(damage - healing)
     # damage cannot be 0 or negative, so this is my compensation since we don't know how the real calculation works
-    if (damage < 5):
-        damage = 5
     print(str(damage) + " damage done.")
     target.hp -= damage
     if (target.hp <= 0):
