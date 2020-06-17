@@ -32,6 +32,7 @@ exports.attack = function(firer, target, targetAllies){
         if (x.toLowerCase() == target.type.toLowerCase()){
             fp = (1.25 * firer.firepower + 6);
             man = (1.25 * firer.maneuver + 3);
+            counters = true;
         }
     });
     if(counters == false){
@@ -55,11 +56,15 @@ exports.attack = function(firer, target, targetAllies){
     }
     let roll = hitResult(man * (multiplier/100 + 1), tMan * (tMultiplier/100 + 1));
     if (roll == "MISS"){ return;}
-    let damage = Math.ceil(baseDamage(firer.firepower, firer.armor)) + Math.ceil(damagemod(fp, multiplier)) // 90% sure base doesn't include bonuses or counter stat
+    let base = baseDamage(firer.firepower, firer.armor);
+    let damage = Math.ceil(base) + Math.ceil(damagemod(fp, multiplier)) // 90% sure base doesn't include bonuses or counter stat
     damage -= mitigation(tArm, tMultiplier);
     if (roll == "CRIT"){ damage *= 1.5;}
     else if (roll == "GRAZE"){ damage *= .5;}
-    let damageReduct = 0
+    if(base * .5 > damage){ // damage before healing cannot be less than 50% of base fp
+        damage = base * .5;
+    }
+    let damageReduct = 0;
     targetAllies.forEach(function(i){i.healing.forEach(function(type){if(type[0] == target.type){ damageReduct += type[1];}});});
     if(damageReduct > 30){ damageReduct = 30;} // 30% is max friendly damage reduction
     counters = false;
@@ -71,10 +76,78 @@ exports.attack = function(firer, target, targetAllies){
     });
     if(counters == false){ healing = Math.round(damage * (damageReduct / 100));}
     damage = Math.ceil(damage - healing);
-    // damage cannot be 0 or negative, so this is my compensation since we don't know how the real calculation works
-    if(damage < 3){ damage = 3;}
+    // damage cannot be less than 25% of base fp
+    if(base * .25 > damage){ damage = base * .25;}
     target.hp -= damage;
     if (target.hp <= 0){ target.alive = false;}
+    return;
+}
+
+exports.attackWDisp = function(firer, target, targetAllies){
+    if(firer.alive == false){ return;} //he dead bruh
+    let targetBonus = 0;
+    let man,fp,tArm,tMan;
+    firer.typeBonuses.forEach(function(i){if(i[0] == target.type){targetBonus = i[1];}});
+    let multiplier = (firer.bonuses + targetBonus);    
+    let counters = false;
+    firer.counters.forEach(function(x){
+        if (x.toLowerCase() == target.type.toLowerCase()){
+            fp = (1.25 * firer.firepower + 6);
+            man = (1.25 * firer.maneuver + 3);
+            counters = true;
+        }
+    });
+    if(counters == false){
+        fp = firer.firepower;
+        man = firer.maneuver;
+    }
+    targetBonus = 0;
+    target.typeBonuses.forEach(function(i){if(i[0] == firer.type){ targetBonus = i[1];}});
+    let tMultiplier = (target.bonuses + targetBonus);
+    counters = false;
+    target.counters.forEach(function(x){
+        if (x.toLowerCase() == firer.type.toLowerCase()){
+            counters = true;
+            tArm = (1.25 * target.armor + 3);
+            tMan = (1.25 * target.maneuver + 3);
+        }
+    });
+    if(counters == false){
+        tArm = target.armor;
+        tMan = target.maneuver;
+    }
+    let roll = hitResult(man * (multiplier/100 + 1), tMan * (tMultiplier/100 + 1));
+    console.log(roll);
+    if (roll == "MISS"){ return;}
+    let base = baseDamage(firer.firepower, firer.armor);
+    console.log("base fp: " + base);
+    console.log("fp mod: " + Math.ceil(damagemod(fp, multiplier)));
+    console.log(firer.firepower, fp);
+    let damage = Math.ceil(base) + Math.ceil(damagemod(fp, multiplier)) // 90% sure base doesn't include bonuses or counter stat
+    damage -= mitigation(tArm, tMultiplier);
+    console.log("mitigation: " + mitigation(tArm, tMultiplier));
+    if (roll == "CRIT"){ damage *= 1.5;}
+    else if (roll == "GRAZE"){ damage *= .5;}
+    if(base * .5 > damage){ // damage before healing cannot be less than 50% of base fp
+        damage = base * .5;
+    }
+    let damageReduct = 0;
+    targetAllies.forEach(function(i){i.healing.forEach(function(type){if(type[0] == target.type){ damageReduct += type[1];}});});
+    if(damageReduct > 30){ damageReduct = 30;} // 30% is max friendly damage reduction
+    counters = false;
+    target.counters.forEach(function(x){
+        if(x.toLowerCase() == firer.type.toLowerCase() && counters == false){
+            healing = Math.round(damage * ((damageReduct + 50) / 100));
+            counters = true;
+        }
+    });
+    if(counters == false){ healing = Math.round(damage * (damageReduct / 100));}
+    damage = Math.ceil(damage - healing);
+    // damage cannot be less than 25% of base fp
+    if(base * .25 > damage){ damage = base * .25;}
+    target.hp -= damage;
+    if (target.hp <= 0){ target.alive = false;}
+    console.log("damage: " + damage);
     return;
 }
 

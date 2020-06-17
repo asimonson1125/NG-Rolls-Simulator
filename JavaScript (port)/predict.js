@@ -12,32 +12,31 @@ exampleMortar = new unitClass.unit("Infantry", 3, 2, 2, 50, 20, [["Armor", 10],[
 exampleInfantry = new unitClass.unit("Infantry", 3, 1, 2, 50, 0, [], [], [],1);
 testHealer = new unitClass.unit("idkMan", 0,0,0,10,0,[],[],[["Infantry",30]],1);
 
-unit1 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit2 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit3 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit4 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit5 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit6 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit7 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit8 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
-unit9 = new unitClass.unit("Special Forces",4,1,4,50,0,[["Infantry",50]],[],[],1);
+unit1 = new unitClass.unit("Air",11,10,9,132,0,[],[],[["Air",20]],1);
+unit2 = new unitClass.unit("Air",10,9,11,132,0,[],[],[["Infantry",20], ["Armor",20]],1);
+unit3 = new unitClass.unit("Air",9,6,8,113,0,[["Static",20], ["Special forces",40]],["Armor"],[["Air",20]],1);
+unit4 = new unitClass.unit("Air",13,9,11,106,60,[],[],[],1);
+unit5 = new unitClass.unit("Air",7,11,13,123,40,[],[],[],1);
+unit6 = new unitClass.unit("Air",11,7,14,114,20,[],[],[["Air",20]],1);
+unit7 = new unitClass.unit("Air",6,11,12,141,20,[["Static",20]],[],[["Infantry",20], ["Static",20]],1);
+unit8 = new unitClass.unit("Air",12,8,10,132,0,[],[],[["Armor",20]],1);
 
-eunit1 = new unitClass.unit("Infantry",5,2,4,56,0,[],["Special Forces"],[],1);
-eunit2 = new unitClass.unit("Infantry",4,4,2,60,0,[],["Special Forces"],[],1);
-eunit3 = new unitClass.unit("Infantry",5,2,2,62,0,[],["Special Forces"],[],1);
-eunit4 = new unitClass.unit("Infantry",4,1,4,62,0,[],["Special Forces"],[],1);
-eunit5 = new unitClass.unit("Infantry",4,2,5,50,0,[["Static",10]],["Special Forces"],[],1);
-eunit6 = new unitClass.unit("Infantry",3,2,5,62,0,[],["Special Forces"],[],1);
-eunit7 = new unitClass.unit("Infantry",3,2,2,50,0,[],["Special Forces"],[],1);
-eunit8 = new unitClass.unit("Infantry",3,1,3,56,0,[],["Special Forces"],[],1);
-eunit9 = new unitClass.unit("Infantry",3,1,2,56,0,[],["Special Forces"],[],1);
+eunit1 = new unitClass.unit("Air",13,7,6,104,0,[],["Air"],[["Infantry",10]],1);
+eunit2 = new unitClass.unit("Air",14,7,6,104,0,[],["Air"],[],1);
+eunit3 = new unitClass.unit("Air",9,6,6,144,10,[],["Air"],[],1);
+eunit4 = new unitClass.unit("Air",13,4,7,128,0,[],["Air"],[],1);
+eunit5 = new unitClass.unit("Air",9,8,6,136,0,[],["Air"],[],1);
+eunit6 = new unitClass.unit("Air",7,5,8,136,0,[],["Air"],[["Special Forces",10]],1);
+eunit7 = new unitClass.unit("Air",6,6,8,104,0,[],["Air"],[],1);
+eunit8 = new unitClass.unit("Air",8,5,7,96,0,[],["Air"],[],1);
+eunit9 = new unitClass.unit("Air",6,5,5,120,0,[["Air",10]],["Air"],[],1);
 
 // ______________________________________________________________________________
 
 // instantBattle simulates the battle 'rounds' number of times and prints how many each side won with remaining units
 // change pFriendlies and pEnemies to fit how many units you have in your battle and what you named them.
 async function instantBattle(rounds){
-    const pFriendlies = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8, unit9]//, unit10, unit11, unit12, unit13, unit14, unit15, unit16, unit17, unit18, unit19, unit20];
+    const pFriendlies = [unit1, unit2, unit3, unit4, unit5, unit6, unit7, unit8]//, unit9, unit10, unit11, unit12, unit13, unit14, unit15, unit16, unit17, unit18, unit19, unit20];
     const pEnemies = [eunit1, eunit2, eunit3, eunit4, eunit5, eunit6, eunit7, eunit8, eunit9]//, eunit10, eunit11, eunit12, eunit13, eunit14, eunit15, eunit16, eunit17, eunit18, eunit19, eunit20];
 
     let friendlies = pFriendlies.slice();
@@ -105,6 +104,5 @@ async function instantBattle(rounds){
 
 instantBattle(1000);
 
-//mathlab.attack(attacker,defender,allies);
-//mathlab.attack(eunit1,unit1,[]);
-//attack(exampleMortar, exampleInfantry, [exampleInfantry, testHealer]);
+//mathlab.attackWDisp(attacker,defender,allies);
+//mathlab.attackWDisp(exampleMortar, exampleInfantry, [exampleInfantry, testHealer]);
