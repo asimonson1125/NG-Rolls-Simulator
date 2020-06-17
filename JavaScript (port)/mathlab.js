@@ -59,10 +59,16 @@ exports.attack = function(firer, target, targetAllies){
     let base = baseDamage(firer.firepower, firer.armor);
     let damage = Math.ceil(base) + Math.ceil(damagemod(fp, multiplier)) // 90% sure base doesn't include bonuses or counter stat
     damage -= mitigation(tArm, tMultiplier);
-    if (roll == "CRIT"){ damage *= 1.5;}
-    else if (roll == "GRAZE"){ damage *= .5;}
-    if(base * .5 > damage){ // damage before healing cannot be less than 50% of base fp
-        damage = base * .5;
+    if (roll == "CRIT"){ 
+        damage *= 1.5;
+        if(damage < base *1.5){ damage = base *1.5}
+    }
+    else if (roll == "GRAZE"){ 
+        damage *= .5;
+        if(damage < base * .5){ damage = base * .5}
+    }
+    else if(roll == "HIT" && damage < base){ // damage before healing cannot be less than 50% of base fp
+        damage = base;
     }
     let damageReduct = 0;
     targetAllies.forEach(function(i){i.healing.forEach(function(type){if(type[0] == target.type){ damageReduct += type[1];}});});
@@ -76,12 +82,15 @@ exports.attack = function(firer, target, targetAllies){
     });
     if(counters == false){ healing = Math.round(damage * (damageReduct / 100));}
     damage = Math.ceil(damage - healing);
-    // damage cannot be less than 25% of base fp
-    if(base * .25 > damage){ damage = base * .25;}
+    // damage cannot be less than 50% of pre-healing minimum
+    if(roll == "CRIT" && damage < .75 * base){ damage = .75*base;}
+    else if (roll == "GRAZE" && damage < .25 * base){ damage = .25*base;}
+    else if (roll == "HIT" && damage < .5 * base){ damage = .5*base;}
     target.hp -= damage;
     if (target.hp <= 0){ target.alive = false;}
     return;
 }
+
 
 exports.attackWDisp = function(firer, target, targetAllies){
     if(firer.alive == false){ return;} //he dead bruh
@@ -126,10 +135,16 @@ exports.attackWDisp = function(firer, target, targetAllies){
     let damage = Math.ceil(base) + Math.ceil(damagemod(fp, multiplier)) // 90% sure base doesn't include bonuses or counter stat
     damage -= mitigation(tArm, tMultiplier);
     console.log("mitigation: " + mitigation(tArm, tMultiplier));
-    if (roll == "CRIT"){ damage *= 1.5;}
-    else if (roll == "GRAZE"){ damage *= .5;}
-    if(base * .5 > damage){ // damage before healing cannot be less than 50% of base fp
-        damage = base * .5;
+    if (roll == "CRIT"){ 
+        damage *= 1.5;
+        if(damage < base *1.5){ damage = base *1.5}
+    }
+    else if (roll == "GRAZE"){ 
+        damage *= .5;
+        if(damage < base * .5){ damage = base * .5}
+    }
+    else if(roll == "HIT" && damage < base){ // damage before healing cannot be less than 50% of base fp
+        damage = base;
     }
     let damageReduct = 0;
     targetAllies.forEach(function(i){i.healing.forEach(function(type){if(type[0] == target.type){ damageReduct += type[1];}});});
@@ -143,8 +158,10 @@ exports.attackWDisp = function(firer, target, targetAllies){
     });
     if(counters == false){ healing = Math.round(damage * (damageReduct / 100));}
     damage = Math.ceil(damage - healing);
-    // damage cannot be less than 25% of base fp
-    if(base * .25 > damage){ damage = base * .25;}
+    // damage cannot be less than 50% of pre-healing minimum
+    if(roll == "CRIT" && damage < .75 * base){ damage = .75*base;}
+    else if (roll == "GRAZE" && damage < .25 * base){ damage = .25*base;}
+    else if (roll == "HIT" && damage < .5 * base){ damage = .5*base;}
     target.hp -= damage;
     if (target.hp <= 0){ target.alive = false;}
     console.log("damage: " + damage);

@@ -1,6 +1,7 @@
 # NG-Rolls-Simulator
 **A Python NationsGame battle simulator for division predictions**
-JS version added on June 6th, 2020.
+
+(JS version added on June 6th, 2020 for Discord bots)
 
 I reverse-engineered the battle mechanics of the browser game, [NationsGame](https://www.Nationsgame.net), and rebuilt them into this python project that can simulate individual attacks as well as run mass battle simulations to determine the victor and remaining units.  It includes the following elements from the game:
 * Base damage (estimation, but pretty close)
@@ -12,14 +13,15 @@ I reverse-engineered the battle mechanics of the browser game, [NationsGame](htt
 * Continent bonus
 * Target-unit type bonuses
 * Counters
-* friendly damage reduction (healing)
-* attacks per round (ie. MG Infantry and Jackhammer stat)
-* retreating
+* Friendly damage reduction (healing)
+* Attacks per round (ie. MG Infantry and Jackhammer stat)
+* Retreating
+* Minimum damage output
 
 It does not account for:
 * Targeting
 * Officers
-* realistic initiative rolls
+* Real initiative rolls
 
 I don't intend to implement targeting into this project because I wasn't able to pinpoint how it was done ingame other than a few specific conditions the game favors.  In the bigger and tougher battles I found the correlations to be virtually negligable, so I just made it random.  I won't be adding officers for the same reason.  Officers just amplifiy the effects of targeting, so nobody knows exactly how they work.
 
