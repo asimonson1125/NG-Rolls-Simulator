@@ -3,7 +3,7 @@
 
 (JS version added on June 6th, 2020 for Discord bots)
 
-I reverse-engineered the battle mechanics of the browser game, [NationsGame](https://www.Nationsgame.net), and rebuilt them into this python project that can simulate individual attacks as well as run mass battle simulations to determine the victor and remaining units.  It includes the following elements from the game:
+I reverse-engineered the battle mechanics of the defunct browser game, [NationsGame](https://www.Nationsgame.net), and rebuilt them into this python project that can simulate individual attacks as well as run mass battle simulations to determine the victor and remaining units.  It includes the following elements from the game:
 * Base damage (estimation, but pretty close)
 * Firepower
 * Armor
@@ -30,3 +30,6 @@ The initiative roll has many factors and getting the exact formula would be a he
 If you intend to use it, you should only need to look at `main.py` (or `predict.js` for the JavaScript version) to add your units and adjust how many battles you want to simulate.  Each unit has a ton of different stats and inputting them manually takes quite a while, so I also threw in `getUnitsFromBattle.js`.  Just paste this bad boy in the console on the battle page of what you want to simulate and it'll print out all of the unit stats like it was a regular Tuesday morning. 
 
 I don't really care what you do with this since it's just a fun little project for a small browser game, so have fun!
+
+## More Nationsgame: Datascraping and Automation scripts
+This game no longer exists, so I figured it would be alright to release the scripts that I used to pull data from the game and automate some of the repetitive tasks.  If you are interested, you can find that work [here in my archive](https://github.com/asimonson1125/SnippetArchive/tree/master/Nationsgame), along with a list of exploits found in the process.
